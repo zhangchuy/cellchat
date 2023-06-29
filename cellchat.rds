@@ -1,0 +1,188 @@
+library(Seurat)
+library(CellChat)
+library(uwot)
+library(pheatmap)
+
+pid <- c("PRJNA868764")
+sample_name <- c("SRX17035593")
+setwd(paste0("/data/shenwk/stAtlas/10X/",pid ,seq = "/" ,sample_name))
+pbmc.markers = read.csv(paste0("/data/shenwk/stAtlas/10X/",pid,sep = "/",sample_name,sep = "",".csv"))
+pbmc = readRDS(paste0("/data/shenwk/stAtlas/10X/",pid,sep = "/",sample_name,sep = "",".rds"))
+for (i in unique(pbmc.markers$cluster)) {
+  cells.use <- WhichCells(pbmc, idents = i )
+  a <- as.vector(paste("cluster", sep = "_", i))
+  pbmc <- SetIdent(pbmc, cells = cells.use, value = a)
+}
+data.input <- GetAssayData(pbmc, assay = "RNA", slot = "data")
+labels <- Idents(pbmc)
+meta <- data.frame(group = labels, row.names = names(labels))
+cellchat <- createCellChat(object = data.input, meta = meta, group.by = "group")
+cellchat <- addMeta(cellchat, meta = meta)
+cellchat <- setIdent(cellchat, ident.use = "group")
+levels(cellchat@idents)
+groupSize <- as.numeric(table(cellchat@idents))
+CellChatDB <- CellChatDB.human
+CellChatDB.use <- subsetDB(CellChatDB, search = "Secreted Signaling")
+cellchat@DB <- CellChatDB.use
+cellchat <- subsetData(cellchat)
+future::plan("multiprocess", workers = 4)
+cellchat <- identifyOverExpressedGenes(cellchat)
+cellchat <- identifyOverExpressedInteractions(cellchat)
+cellchat <- computeCommunProb(cellchat)
+#cellchat <- filterCommunication(cellchat, min.cells = 10)
+cellchat <- computeCommunProbPathway(cellchat)
+cellchat <- aggregateNet(cellchat)
+groupSize <- as.numeric(table(cellchat@idents))
+
+#Number of interactions图
+#path <- paste0("/data/shenwk/stAtlas/10X/" , seq = "/", sample_name)
+#name <- "Number of interactions.pdf"
+#pn <- paste0(path , seq = "/" , name )
+pdf("Number of interactions.pdf")
+netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T, label.edge= F, title.name = "Number of interactions")
+dev.off()
+
+#Interaction weights/strength图
+#path <- paste0("/data/shenwk/stAtlas/10X/" , seq = "/", sample_name)
+#name <- "Interaction weights&strength.pdf"
+#pn <- paste0(path , seq = "/" , name )
+pdf("Interaction weight&strength.pdf")
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize,  weight.scale = T, label.edge= F, title.name = "Interaction weights/strength")
+dev.off()
+
+
+#每个cluster的Interaction weights/strength图
+mat <- cellchat@net$weight
+for (i in 1:nrow(mat)) {
+  mat2 <- matrix(0, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
+  mat2[i, ] <- mat[i, ] 
+  name <- paste0(rownames(mat)[i]," Interaction weights&strength.pdf")
+  pdf(name)
+  netVisual_circle(mat2, vertex.weight = groupSize, weight.scale = T, edge.weight.max = max(mat), title.name = rownames(mat)[i])
+  dev.off()
+}
+
+#重要的信号通路，供下游单独信号通路的作图分析
+pathways.show <- cellchat@netP$pathway
+a <- round(length(unique(pbmc.markers$cluster))/2, digits = 0)
+vertex.receiver <- seq(1,a)
+#层次图和弦图
+for (i in 1:length(pathways.show)) {
+  netVisual(cellchat, signaling = pathways.show[i], vertex.receiver = vertex.receiver, layout = "hierarchy", out.format = "png")
+  netVisual(cellchat, signaling = pathways.show[i], vertex.receiver = vertex.receiver, layout = "chord", out.format = "png")
+}
+
+#contribution
+for (i in 1:length(pathways.show)) {
+  # Compute and visualize the contribution of each ligand-receptor pair to the overall signaling pathway
+  gg <- netAnalysis_contribution(cellchat, signaling = pathways.show[i])
+  ggsave(filename=paste0(pathways.show[i], "_L-R_contribution.pdf"), 
+         plot=gg, width = 148, height = 210, units = 'mm', dpi = 300)
+  ggsave(filename=paste0(pathways.show[i], "_L-R_contribution.png"), 
+         plot=gg, width = 148, height = 210, units = 'mm', dpi = 300)
+}
+#每个cluster到另一个cluster的信号通路气泡图
+p5 <- netVisual_bubble(cellchat, sources.use = c(unique(pbmc.markers$cluster)), 
+                       targets.use = c(unique(pbmc.markers$cluster)), remove.isolate = FALSE)
+ggsave(plot = p5, filename = "bubble plot.pdf", width = 400, height = 180, units = 'mm', dpi = 300)
+
+
+cellchat <- netAnalysis_computeCentrality(cellchat, slot.name = "netP")
+#每个cluster在信号通路中扮演的角色和比重的热图
+for(i in 1:length(pathways.show)){
+  #dev.new()
+  pdf(paste0(pathways.show[i]," signaling pathway network.pdf"))
+  netAnalysis_signalingRole_network(cellchat, signaling = pathways.show[i], width = 8, height = 2.5, font.size = 10)
+  dev.off()
+}
+#每个cluste的信号输入和输出强度(可以挑去感兴趣的信号通路单独作图)
+#dev.new()
+pdf("strength plot.pdf")
+netAnalysis_signalingRole_scatter(cellchat)
+dev.off()
+#热图版
+#dev.new()
+pdf("outgoing strength heatmap plot.pdf")
+netAnalysis_signalingRole_heatmap(cellchat, pattern = "outgoing")
+dev.off()
+
+#dev.new()
+pdf("incoming strength heatmap plot.pdf")
+netAnalysis_signalingRole_heatmap(cellchat, pattern = "incoming")
+dev.off()
+
+# functional similarity(功能高度相似性表示主要发送方和接收方相似，
+#并且可以被解释为两种信号通路或两种配体受体对表现出相似和/或冗余的角色,
+#相似性分析需要相同的细胞群组成在两个数据集之间)
+cellchat <- computeNetSimilarity(cellchat, type = "functional")
+cellchat <- netEmbedding(cellchat,umap.method = 'uwot' ,type = "functional")
+cellchat <- netClustering(cellchat, type = "functional")
+#dev.new()
+pdf("functional similarity.pdf")
+netVisual_embedding(cellchat, type = "functional", label.size = 3.5)
+dev.off()
+
+#structure similarity(结构相似性是用于比较它们的信号网络结构)
+cellchat <- computeNetSimilarity(cellchat, type = "structural")
+cellchat <- netEmbedding(cellchat,umap.method = 'uwot' ,type = "structural")
+cellchat <- netClustering(cellchat, type = "structural")
+#dev.new()
+pdf("structure similarity.pdf")
+netVisual_embedding(cellchat, type = "structural", label.size = 3.5)
+dev.off()
+
+
+#Interaction Counts
+counts <- as.matrix(cellchat@net[["count"]])
+p6 <- pheatmap(counts, angle_col = 45, main = "Interaction Counts")
+ggsave(filename = "Interaction Counts.pdf" , plot = p6)
+ggsave(filename = "Interaction Counts.png" , plot = p6)
+
+    #探索多个单元如何类型信
+    #选取K值(outgoing)
+    library(NMF)
+    library(ggalluvial)
+    pdf("outgoing K.pdf")
+    selectK(cellchat, pattern = "outgoing")
+    dev.off()
+    nPatterns = 2#(看图确定K值)
+    #Pattern图
+    #dev.new()
+    pdf("CommunicationPatterns outgoing.pdf")
+    cellchat <- identifyCommunicationPatterns(cellchat, pattern = "outgoing", k = nPatterns)
+    dev.off()
+    
+    #river图
+    #dev.new()
+    pdf("river outgoing.pdf")
+    netAnalysis_river(cellchat, pattern = "outgoing")
+    dev.off()
+    
+    #选取K值(incoming)
+    pdf("incoming K.pdf")
+    selectK(cellchat, pattern = "incoming")
+    dev.off()
+    nPatterns = 3#(看图确定K值)
+    #Pattern图
+    #dev.new()
+    pdf("CommunicationPatterns incoming.pdf")
+    cellchat <- identifyCommunicationPatterns(cellchat, pattern = "incoming", k = nPatterns)
+    dev.off()
+    
+    #river图
+    #dev.new()
+    pdf("river incoming.pdf")
+    netAnalysis_river(cellchat, pattern = "incoming")
+    dev.off()
+    
+    #热图(手动存图)
+    length(pathways.show)
+    heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+    pdf(heatmap_name)
+    netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+    dev.off()
+
+#Save the CellChat object
+saveRDS(cellchat, file = paste0("/data/shenwk/stAtlas/10X/",pid,seq = "/",sample_name,seq = "/","cellchat_",sample_name,seq = "",".rds"))
+write.table(pathways.show, "pathways show.txt")
+
