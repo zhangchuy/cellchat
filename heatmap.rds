@@ -1,0 +1,233 @@
+i = 1
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 2
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 3
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 4
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 5
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 6
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 7
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 8
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 9
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 10
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 11
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 12
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 13
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 14
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 15
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 16
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 17
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 18
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 19
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 20
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 21
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 22
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 23
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 24
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 25
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 26
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 27
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 28
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 29
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 30
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 31
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 32
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 33
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 34
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 35
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 36
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 37
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+i = 38
+heatmap_name <- paste0(pathways.show[i]," heatmap.pdf")
+pdf(heatmap_name)
+netVisual_heatmap(cellchat, signaling = pathways.show[i], color.heatmap = "Reds")
+dev.off()
+
+file_list <- list.files(pattern = ".rds",full.names = F)
+for (index in c(1:length(file_list))) {
+  shell_cmmand = paste0("mkdir ",substr(file_list[index],1,11))
+  system(shell_cmmand,intern = T)
+}
